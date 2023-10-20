@@ -18,6 +18,6 @@ function poder_padrao(){
 function poder_jogador() {
 	
 	global.poder_ativado[poder] = 1;
-	
+	global.pontos += 100;
 	instance_destroy();
 }

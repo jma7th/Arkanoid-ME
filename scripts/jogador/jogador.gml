@@ -5,7 +5,8 @@ function jogador_iniciar(){
 	movespeed = 8;
 	hsp = 0;
 	hlast = 1;
-	limite_laser = 2;
+	limite_laser = 4;
+	bola_fixada = 0;
 }
 
 function jogador_padrao(){
@@ -49,8 +50,9 @@ function jogador_padrao(){
 	
 	if (global.poder_ativado[PODER.LASER]) {
 		image_blend = c_red;
-		if (global.tecla_atirar) && (instance_number(obj_laser)<2){
-			instance_create_depth(x,y,-1,obj_laser)
+		if (global.tecla_atirar) && (instance_number(obj_laser)<limite_laser){
+			instance_create_depth(x-(sprite_width/2),y,-1,obj_laser)
+			instance_create_depth(x+(sprite_width/2),y,-1,obj_laser)
 		} 
 	} else {
 		image_blend = c_white;

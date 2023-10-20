@@ -6,12 +6,19 @@ function bola_iniciar(){
 	vel = vel_inicial;
 	fixar = 0;
 	acc = 0;
-	acc_max = 8;
+	acc_max = 4;
 	acc_add = 1;
 	vel_max = 16;
 }
 
 function bola_padrao(){
+	
+	// ao passar de fase
+	if (global.fase_concluida) {
+		visible = 0;
+		hspeed = 0;
+		vspeed = 0;
+	}
 	
 	// não deixar vazar da tela
 	
@@ -36,8 +43,10 @@ function bola_padrao(){
 	if instance_exists(obj_jogador) {
 		if fixar = 1 {
 			x = obj_jogador.x
+			y = (obj_jogador.y) - 16
 			if (global.tecla_atirar){
 				fixar = 0;
+				obj_jogador.bola_fixada = 0;
 				hspeed = obj_jogador.hlast * vel;
 				vspeed = vel*-1;
 			}
@@ -47,16 +56,16 @@ function bola_padrao(){
 	if (acc = acc_max) {
 		acc = 0;
 		vel += acc_add;
-		if hspeed > 0 {hspeed = vel;}
-		if hspeed < 0 {hspeed =- vel;}
-		if vspeed > 0 {vspeed = vel;}
-		if vspeed < 0 {vspeed =- vel;}
+		hspeed = vel * sign(hspeed);
+		vspeed = vel * sign(vspeed);
 	}
 	hspeed = clamp(hspeed,(vel_max*-1),vel_max)
 	vspeed = clamp(vspeed,(vel_max*-1),vel_max)
 	
 	if (global.poder_ativado[PODER.LENTO]) {
 		vel = vel_inicial;
+		hspeed = vel*sign(hspeed);
+		vspeed = vel*sign(vspeed);
 		global.poder_ativado[PODER.LENTO] = 0;
 	}
 	
@@ -82,14 +91,20 @@ function bola_colisao_solido() {
 
 function bola_colisao_jogador(){
 	
-	if global.poder_ativado[PODER.IMA] = 1 {
+	if (global.poder_ativado[PODER.IMA]) && instance_exists(obj_jogador) && (obj_jogador.bola_fixada = 0) {		
 		fixar = 1;
+		obj_jogador.bola_fixada = 1;
 		hspeed = 0;
 		vspeed = 0;
 	} else {
 		//if vspeed > 0 {
-			//vspeed=-1
-			move_bounce_all(true);
+			vspeed =-vel
+			if (obj_jogador.x>x) {
+				hspeed = -vel; 
+			}
+			if (obj_jogador.x<x) {
+				hspeed = vel; 
+			}
 		//}
 	}
 }
