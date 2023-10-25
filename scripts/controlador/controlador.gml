@@ -4,7 +4,8 @@ function jogo_iniciar(){
 enum ESTADO {
 	INATIVO,
 	JOGAR,
-	PAUSA
+	PAUSA,
+	FIM
 	}
 	
 enum CENARIO {
@@ -29,11 +30,13 @@ global.cenario_atual = CENARIO.TITULO;
 global.vidas = 2;
 global.pontos = 0;
 
-global.poder_ativado[PODER.IMA] = 1;
+global.poder_ativado[PODER.LASER] = 1;
 global.poder_ativado[PODER.TODOS] = 0;
 
 global.timer_passar_fase = 180;
 global.fase_concluida = 0;
+
+global.bgm = 0;
 }
 
 function jogo_teclas(){
@@ -64,10 +67,6 @@ function jogo_padrao(){
 		}
 	}
 	
-	//if global.poder_ativado[PODER.LASER] = 1 {
-	//	global.poder_ativado[PODER.FOGO] = 0;
-	//}
-	
 	// poder de multiplicar bolas
 	if (global.poder_ativado[PODER.MULTI]) {
 		var _bola =	instance_create_depth(obj_bola.x,obj_bola.y,-1,obj_bola);
@@ -95,9 +94,12 @@ function jogo_estado(){
 				jogo_iniciar_fase();
 			}
 			if (instance_number(obj_bloco) < 1) {
-				global.fase_concluida = 1;
 				if (alarm[0]=-1) {
 					alarm[0] = global.timer_passar_fase;
+				}
+				if global.fase_concluida = 0 {
+				audio_play_sound(snd_passar_fase,0,0);
+				global.fase_concluida = 1;
 				}
 			}
 		default:
@@ -127,21 +129,35 @@ function jogo_pausar(){
 		case ESTADO.INATIVO:
 			room_goto(rm_fase_1);
 			global.estado_atual = ESTADO.JOGAR;
+			if !(audio_is_playing(snd_bgm)) {
+			global.bgm = audio_play_sound(snd_bgm,0,1)
+			}
 			break;
 		case ESTADO.PAUSA:
 			global.estado_atual = ESTADO.JOGAR;
+			if (audio_is_paused(snd_bgm)) {
+			audio_resume_sound(snd_bgm);
+			}
 			instance_activate_all();
+			
 			break;
 		case ESTADO.JOGAR:
 			global.estado_atual = ESTADO.PAUSA;
+			audio_pause_sound(snd_bgm);
+			audio_play_sound(snd_colisao,0,0);
 			
 			instance_deactivate_object(obj_jogador);
 			instance_deactivate_object(obj_bola);
 			instance_deactivate_object(obj_poder_pai);
 			
 			if (global.vidas < 0) {
+				audio_stop_sound(snd_bgm);
 				room_goto(rm_titulo);
 			}
+			break;
+		case ESTADO.FIM:
+			room_goto(rm_titulo);
+			global.estado_atual = ESTADO.INATIVO;
 			break;
 	}
 }
@@ -158,6 +174,8 @@ function jogo_iniciar_fase(){
 function jogo_perder_vida(){
 	//play_audio
 	global.vidas -=1;
+	if global.vidas > 0 {
+	audio_play_sound(snd_derrota,0,0);} else { audio_play_sound(snd_gameover,0,0);}
 	with (obj_poder_pai) {
 		if visible = 1 {
 			instance_destroy();
@@ -176,7 +194,13 @@ function jogo_limpar_poderes(){
 function jogo_passar_fase(){
 	jogo_limpar_poderes();
 	global.fase_concluida = 0;
-	room_goto_next();
+	if !(room = room_last) {
+		room_goto_next();
+	} else {
+		obj_jogador.visible = 0;
+		global.estado_atual = ESTADO.FIM;
+		}
+	
 }
 
 function jogo_desenhar(){
@@ -201,13 +225,13 @@ function desenhar_debug(){
 	draw_set_font(fnt_padrao);
 	draw_set_color(c_white);
 	draw_set_halign(fa_center);
-	
+	/*
 	switch (global.estado_atual) {
 		case ESTADO.INATIVO:
 			draw_text(16,16,global.estado_atual)
 			draw_text(16,32,global.cenario_atual)
 			break;
-	}
+	}*/
 }
 
 function desenhar_gui(){
@@ -234,17 +258,24 @@ function desenhar_gui(){
 			draw_set_halign(fa_center);
 			draw_text((_sw/2),(_sh/2),"PAUSADO")
 			break;
+		case ESTADO.FIM:
+			draw_rectangle_color(48,48,room_width-48,room_height-256,c_black,c_black,c_black,c_black,0)
+			draw_set_halign(fa_center);
+			draw_text((_sw/2),(_sh/2),"VOCÊ VENCEU!\n\nOBRIGADO POR JOGAR.\n\nAPERTE ESPAÇO PARA JOGAR NOVAMENTE...")
+			break;
 	}
 }
 
 function desenhar_titulo(){
-	var _sw = window_get_width();
-	var _sh = window_get_height();
+	var _sw = room_width;
+	var _sh = room_height;
 	draw_set_font(fnt_padrao);
 	draw_set_color(c_white);
 	draw_set_halign(fa_center);
-	draw_sprite(spr_logo,-1,(_sw/2),(_sh/2));
+	draw_sprite(spr_logo,-1,(_sw/2),(_sh/2)-64);
 	draw_text((_sw/2),((_sh/4)*3),"Aperte BARRA DE ESPAÇO para iniciar");
 	draw_set_halign(fa_left)
-    draw_text((_sw/12),((_sh/8)*7),"Controles:\nSetas direcionais para movimentar.\nZ para atirar.\nX para correr.")
+    draw_text((_sw/12),(((_sh/8)*7)-32),"Controles:\nSetas direcionais para movimentar.\nZ para atirar.\nX para correr.")
+	draw_text(((_sw/8)*4)+16,((_sh/8)*7)-32,"Jogo feito pelos alunos da UNIFAN:\nJoão Matheus\nEnzo dos Anjos\nGabriel Cauã\nADS 2022.1")
+	
 }

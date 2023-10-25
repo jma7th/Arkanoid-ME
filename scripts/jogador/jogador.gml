@@ -53,6 +53,7 @@ function jogador_padrao(){
 		if (global.tecla_atirar) && (instance_number(obj_laser)<limite_laser){
 			instance_create_depth(x-(sprite_width/2),y,-1,obj_laser)
 			instance_create_depth(x+(sprite_width/2),y,-1,obj_laser)
+			audio_play_sound(snd_tiro,0,0)
 		} 
 	} else {
 		image_blend = c_white;

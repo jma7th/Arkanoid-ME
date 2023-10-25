@@ -40,6 +40,10 @@ function bola_padrao(){
 		instance_destroy();
 	}
 
+	if (alarm[0] < 0) && (image_alpha < 1) {
+		alarm[0] = game_get_speed(gamespeed_fps)*2;
+	}
+	
 	
 	if instance_exists(obj_jogador) {
 		if fixar = 1 {
@@ -87,12 +91,25 @@ function bola_colisao() {
 	if global.poder_ativado[PODER.FOGO] = 0 {
 		move_bounce_all(true);
 		acc += 1;
+		audio_play_sound(snd_colisao,0,0);
 		}
+}
+
+function bola_colisao_madeira() {
+	acc += 1;
+	audio_play_sound(snd_colisao,0,0);
+}
+
+function bola_colisao_inv() {
+	image_alpha = 0.1;
+	acc += 1;
+	audio_play_sound(snd_colisao,0,0);
 }
 
 function bola_colisao_solido() {
 	move_bounce_all(true);
 	acc += 1;
+	audio_play_sound(snd_colisao,0,0);
 }
 
 function bola_colisao_jogador(){

@@ -3,7 +3,6 @@
   "resourceVersion": "1.0",
   "name": "obj_bloco_madeira",
   "eventList": [
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,},
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":{"name":"obj_bola","path":"objects/obj_bola/obj_bola.yy",},"eventNum":0,"eventType":4,"isDnD":false,},
     {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":{"name":"obj_laser","path":"objects/obj_laser/obj_laser.yy",},"eventNum":0,"eventType":4,"isDnD":false,},
   ],
@@ -13,7 +12,10 @@
     "name": "Objetos",
     "path": "folders/Objetos.yy",
   },
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "obj_bloco",
+    "path": "objects/obj_bloco/obj_bloco.yy",
+  },
   "persistent": false,
   "physicsAngularDamping": 0.1,
   "physicsDensity": 0.5,

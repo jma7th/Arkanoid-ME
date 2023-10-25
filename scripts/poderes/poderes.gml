@@ -16,7 +16,7 @@ function poder_padrao(){
 }
 
 function poder_jogador() {
-	
+	audio_play_sound(snd_poder,0,0)
 	global.poder_ativado[poder] = 1;
 	global.pontos += 100;
 	instance_destroy();
