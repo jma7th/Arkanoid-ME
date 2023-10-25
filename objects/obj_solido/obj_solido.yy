@@ -26,8 +26,8 @@
   "properties": [],
   "solid": true,
   "spriteId": {
-    "name": "spr_solido",
-    "path": "sprites/spr_solido/spr_solido.yy",
+    "name": "spr_bloco_metal",
+    "path": "sprites/spr_bloco_metal/spr_bloco_metal.yy",
   },
   "spriteMaskId": null,
   "visible": true,

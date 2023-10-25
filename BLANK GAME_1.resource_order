@@ -1,4 +1,13 @@
 {
   "FolderOrderSettings": [],
-  "ResourceOrderSettings": [],
+  "ResourceOrderSettings": [
+    {"name":"rm_fase_5","order":3,"path":"rooms/rm_fase_5/rm_fase_5.yy",},
+    {"name":"spr_background_1","order":1,"path":"sprites/spr_background_1/spr_background_1.yy",},
+    {"name":"spr_background_5","order":5,"path":"sprites/spr_background_5/spr_background_5.yy",},
+    {"name":"spr_background_4","order":4,"path":"sprites/spr_background_4/spr_background_4.yy",},
+    {"name":"spr_background_2","order":2,"path":"sprites/spr_background_2/spr_background_2.yy",},
+    {"name":"spr_background_3","order":3,"path":"sprites/spr_background_3/spr_background_3.yy",},
+    {"name":"rm_fase_4","order":2,"path":"rooms/rm_fase_4/rm_fase_4.yy",},
+    {"name":"rm_fase_3","order":1,"path":"rooms/rm_fase_3/rm_fase_3.yy",},
+  ],
 }

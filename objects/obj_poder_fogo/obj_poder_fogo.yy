@@ -30,10 +30,7 @@
   "physicsStartAwake": true,
   "properties": [],
   "solid": false,
-  "spriteId": {
-    "name": "spr_poder_fogo",
-    "path": "sprites/spr_poder_fogo/spr_poder_fogo.yy",
-  },
+  "spriteId": null,
   "spriteMaskId": null,
   "visible": true,
 }
