@@ -45,6 +45,7 @@ function bola_padrao(){
 		if fixar = 1 {
 			if (x_prev = -1) {
 				x_prev = distance_to_point(obj_jogador.x,y);
+				if obj_jogador.x > x {x_prev*=-1}
 			}
 			x = (obj_jogador.x) + x_prev;
 			y = (obj_jogador.y) - 32
