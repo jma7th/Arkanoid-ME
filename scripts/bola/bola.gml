@@ -9,6 +9,7 @@ function bola_iniciar(){
 	acc_max = 4;
 	acc_add = 1;
 	vel_max = 16;
+	x_prev = -1;
 }
 
 function bola_padrao(){
@@ -39,13 +40,17 @@ function bola_padrao(){
 		instance_destroy();
 	}
 
-	/// obter valor das teclas
+	
 	if instance_exists(obj_jogador) {
 		if fixar = 1 {
-			x = obj_jogador.x
-			y = (obj_jogador.y) - 16
+			if (x_prev = -1) {
+				x_prev = distance_to_point(obj_jogador.x,y);
+			}
+			x = (obj_jogador.x) + x_prev;
+			y = (obj_jogador.y) - 32
 			if (global.tecla_atirar){
 				fixar = 0;
+				x_prev = -1;
 				obj_jogador.bola_fixada = 0;
 				hspeed = obj_jogador.hlast * vel;
 				vspeed = vel*-1;

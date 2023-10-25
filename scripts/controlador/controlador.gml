@@ -29,6 +29,7 @@ global.cenario_atual = CENARIO.TITULO;
 global.vidas = 2;
 global.pontos = 0;
 
+global.poder_ativado[PODER.IMA] = 1;
 global.poder_ativado[PODER.TODOS] = 0;
 
 global.timer_passar_fase = 180;
@@ -56,15 +57,18 @@ function jogo_padrao(){
 		jogo_pausar();		
 	}
 	
-	// não permitir fogo e laser ao mesmo tempo para balancear o jogo
-	//if global.poder_ativado[PODER.FOGO] = 1 {
-//		global.poder_ativado[PODER.LASER] = 0;
-//	}
+	
+	if global.poder_ativado[PODER.FOGO] = 1 {
+		if alarm[1] < 0 {
+			alarm[1] = game_get_speed(gamespeed_fps) * 3
+		}
+	}
 	
 	//if global.poder_ativado[PODER.LASER] = 1 {
 	//	global.poder_ativado[PODER.FOGO] = 0;
 	//}
 	
+	// poder de multiplicar bolas
 	if (global.poder_ativado[PODER.MULTI]) {
 		var _bola =	instance_create_depth(obj_bola.x,obj_bola.y,-1,obj_bola);
 		_bola.vel = obj_bola.vel
